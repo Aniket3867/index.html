@@ -4,123 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Buy/Sell Signals</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .signal-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .signal-card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            margin: 15px;
-            padding: 20px;
-            width: 250px;
-            text-align: center;
-        }
-        .signal-card h3 {
-            color: #007bff;
-        }
-        .signal-card p {
-            font-size: 14px;
-            color: #555;
-        }
-        .signal-card .action {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .signal-card .price {
-            color: #ff6347;
-        }
-        .signal-card .tp-sl {
-            font-size: 16px;
-            color: #28a745;
-        }
-        .signal-card .sl {
-            color: #dc3545;
-        }
-        .refresh-btn {
-            display: block;
-            margin: 30px auto;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .refresh-btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Crypto Buy/Sell Signals</h1>
-    <div class="signal-container" id="signal-container">
-        <!-- Signals will be added dynamically here -->
+    <div class="container">
+        <header>
+            <h1>Crypto Buy/Sell Signals</h1>
+        </header>
+        <main>
+            <div class="coin-selection">
+                <label for="coin-select">Select Coin:</label>
+                <select id="coin-select" onchange="fetchData()">
+                    <option value="bitcoin">Bitcoin</option>
+                    <option value="ethereum">Ethereum</option>
+                    <option value="litecoin">Litecoin</option>
+                    <option value="cardano">Cardano</option>
+                </select>
+            </div>
+
+            <div class="price-section">
+                <h2>Current Price</h2>
+                <p id="coin-price">Loading...</p>
+            </div>
+
+            <div class="signal-section">
+                <h3>Current Signals</h3>
+                <div id="signals"></div>
+            </div>
+
+            <button onclick="fetchData()" class="refresh-button">Refresh</button>
+        </main>
     </div>
-    <button class="refresh-btn" onclick="generateNewSignals()">Refresh Signals</button>
 
-    <script>
-        // Function to simulate generating signals
-        function generateSignal() {
-            const action = Math.random() > 0.5 ? "Buy" : "Sell";
-            const currentPrice = (Math.random() * (45000 - 30000) + 30000).toFixed(2);
-            const tp = (currentPrice * (Math.random() * 0.05 + 1.01)).toFixed(2);
-            const sl = (currentPrice * (Math.random() * 0.05 + 0.95)).toFixed(2);
-            const timestamp = new Date().toLocaleString();
-
-            return {
-                action: action,
-                currentPrice: currentPrice,
-                tp: tp,
-                sl: sl,
-                timestamp: timestamp
-            };
-        }
-
-        // Function to update signals in the frontend
-        function updateSignals() {
-            const signalContainer = document.getElementById("signal-container");
-            signalContainer.innerHTML = ''; // Clear existing signals
-
-            // Generate 5 random signals
-            for (let i = 0; i < 5; i++) {
-                const signal = generateSignal();
-
-                const signalCard = document.createElement("div");
-                signalCard.classList.add("signal-card");
-
-                signalCard.innerHTML = `
-                    <h3>${signal.timestamp}</h3>
-                    <div class="action">${signal.action}</div>
-                    <p>Current Price: <span class="price">$${signal.currentPrice}</span></p>
-                    <p class="tp-sl">Target Price: <span class="tp">$${signal.tp}</span></p>
-                    <p class="tp-sl sl">Stop Loss: <span class="sl">$${signal.sl}</span></p>
-                `;
-
-                signalContainer.appendChild(signalCard);
-            }
-        }
-
-        // Call this function when the page loads to display initial signals
-        updateSignals();
-
-        // Function to refresh the signals
-        function generateNewSignals() {
-            updateSignals();
-        }
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
