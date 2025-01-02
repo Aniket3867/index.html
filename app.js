@@ -1,4 +1,4 @@
-// Fetch current data from CoinGecko API
+ // Fetch current data from CoinGecko API
 async function fetchData() {
     const selectedCoin = document.getElementById('coin-select').value;
     const coinPriceElement = document.getElementById('coin-price');
